@@ -9,95 +9,112 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --bg-main: #111b21; --bg-sidebar: #111b21; --bg-chat: #0b141a;
-    --bg-hover: #2a3942; --bg-active: #2a3942;
-    --bg-bubble-in: #202c33;
+    --bg-hover: #2a3942; --bg-active: #2a3942; --bg-bubble: #202c33;
     --accent: #00a884; --accent-light: #00cf9d;
     --text-primary: #e9edef; --text-secondary: #8696a0; --text-muted: #667781;
     --border: #222d34; --search-bg: #2a3942; --header-bg: #202c33;
-    --divider: #222d34; --font: 'Inter', -apple-system, sans-serif;
+    --font: 'Inter', -apple-system, sans-serif;
   }
   body { font-family: var(--font); background: var(--bg-main); color: var(--text-primary); height: 100vh; display: flex; overflow: hidden; }
 
   /* ── SIDEBAR ── */
-  #sidebar { width: 360px; min-width: 260px; display: flex; flex-direction: column; background: var(--bg-sidebar); border-right: 1px solid var(--border); }
+  #sidebar { width: 360px; min-width: 240px; display: flex; flex-direction: column; background: var(--bg-sidebar); border-right: 1px solid var(--border); }
   #sidebar-header { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--header-bg); height: 59px; }
-  .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; color: #fff; flex-shrink: 0; user-select: none; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; user-select: none; }
   .icon-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 6px; border-radius: 50%; display: flex; align-items: center; transition: background .15s, color .15s; }
   .icon-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
   #search-bar { padding: 8px 12px; }
-  #search-bar input { width: 100%; background: var(--search-bg); border: none; border-radius: 8px; padding: 8px 12px 8px 36px; color: var(--text-primary); font-size: 14px; outline: none; font-family: var(--font); }
-  #search-bar input::placeholder { color: var(--text-secondary); }
   .search-wrap { position: relative; }
+  .search-wrap input { width: 100%; background: var(--search-bg); border: none; border-radius: 8px; padding: 8px 12px 8px 36px; color: var(--text-primary); font-size: 14px; outline: none; font-family: var(--font); }
+  .search-wrap input::placeholder { color: var(--text-secondary); }
   .search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; }
   #chat-list { overflow-y: auto; flex: 1; }
   #chat-list::-webkit-scrollbar { width: 6px; }
   #chat-list::-webkit-scrollbar-thumb { background: var(--bg-hover); border-radius: 3px; }
-  .chat-item { display: flex; align-items: center; padding: 10px 16px; gap: 12px; cursor: pointer; border-bottom: 1px solid var(--divider); transition: background .12s; }
+  .chat-item { display: flex; align-items: center; padding: 10px 16px; gap: 12px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background .12s; }
   .chat-item:hover { background: var(--bg-hover); }
   .chat-item.active { background: var(--bg-active); }
   .chat-info { flex: 1; min-width: 0; }
   .chat-name { font-size: 16px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .chat-preview { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
-  .chat-badge { background: var(--accent); color: #fff; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
-  #url-bar { padding: 10px 12px; background: var(--header-bg); border-top: 1px solid var(--border); display: flex; gap: 6px; }
-  #csv-url { flex: 1; background: var(--search-bg); border: none; border-radius: 8px; padding: 7px 10px; color: var(--text-primary); font-size: 12px; outline: none; font-family: var(--font); }
-  #csv-url::placeholder { color: var(--text-secondary); }
-  #load-btn { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font); transition: background .15s; white-space: nowrap; }
-  #load-btn:hover { background: var(--accent-light); }
+  .chat-badge { background: var(--accent); color: #fff; border-radius: 50%; min-width: 20px; height: 20px; padding: 0 4px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+  /* script URL bar */
+  #config-bar { padding: 8px 12px; background: #0d1e26; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 5px; }
+  #config-bar label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; }
+  .config-row { display: flex; gap: 6px; }
+  .config-row input { flex: 1; background: var(--search-bg); border: none; border-radius: 6px; padding: 6px 10px; color: var(--text-primary); font-size: 11px; outline: none; font-family: var(--font); }
+  .config-row input::placeholder { color: var(--text-muted); }
+  .config-row button { background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: var(--font); white-space: nowrap; }
+  .config-row button:hover { background: var(--accent-light); }
 
   /* ── MAIN ── */
   #main { flex: 1; display: flex; flex-direction: column; background: var(--bg-chat);
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23182229' fill-opacity='0.8'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-  #chat-header { display: flex; align-items: center; padding: 10px 16px; background: var(--header-bg); border-bottom: 1px solid var(--border); min-height: 59px; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+  #chat-header { display: flex; align-items: center; padding: 10px 16px; background: var(--header-bg); border-bottom: 1px solid var(--border); min-height: 59px; gap: 12px; flex-shrink: 0; }
   #chat-header-name { font-size: 16px; font-weight: 600; }
   #chat-header-sub { font-size: 13px; color: var(--text-secondary); }
-  #chat-header-actions { margin-left: auto; }
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .live-badge { font-size: 11px; color: var(--accent); background: rgba(0,168,132,.12); border-radius: 20px; padding: 3px 10px; display: inline-flex; align-items: center; gap: 5px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.4; transform:scale(.7); } }
 
   #messages { flex: 1; overflow-y: auto; padding: 16px 40px; display: flex; flex-direction: column; gap: 16px; }
   #messages::-webkit-scrollbar { width: 6px; }
   #messages::-webkit-scrollbar-thumb { background: #2a3942; border-radius: 3px; }
 
   /* instruction card */
-  .msg-wrap { max-width: 72%; align-self: flex-start; display: flex; flex-direction: column; animation: fadeIn .2s ease; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
-
-  .msg-bubble { background: var(--bg-bubble-in); border-radius: 7.5px 7.5px 0 0; padding: 10px 14px 22px; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,.35); }
+  .msg-wrap { max-width: 72%; align-self: flex-start; display: flex; flex-direction: column; animation: fadeIn .2s ease both; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+  .msg-bubble { background: var(--bg-bubble); border-radius: 7.5px 7.5px 0 0; padding: 10px 14px 22px; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,.4); }
   .msg-sr { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 5px; }
   .tag { display: inline-block; background: rgba(0,168,132,.15); color: var(--accent); border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: 700; margin-right: 5px; }
   .msg-text { font-size: 14px; line-height: 1.58; color: var(--text-primary); white-space: pre-wrap; }
   .msg-footer { position: absolute; bottom: 5px; right: 10px; font-size: 11px; color: var(--text-muted); }
 
-  /* remarks block */
-  .remarks-section { background: #16212880; border: 1px solid #1e2c34; border-top: none; border-radius: 0 0 7.5px 7.5px; overflow: hidden; }
-  .remark-item { padding: 8px 14px; border-bottom: 1px solid #1a252d; }
+  /* remarks */
+  .remarks-section { background: #13202780; border: 1px solid #1e2c34; border-top: none; border-radius: 0 0 7.5px 7.5px; overflow: hidden; }
+  .remark-item { padding: 8px 14px; border-bottom: 1px solid #1a252d; animation: fadeIn .15s ease both; }
   .remark-item:last-child { border-bottom: none; }
-  .remark-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 3px; }
-  .remark-by { color: var(--text-secondary); font-weight: 400; }
-  .remark-ts { color: var(--text-muted); font-weight: 400; margin-left: auto; white-space: nowrap; }
+  .remark-meta { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 3px; }
+  .remark-author { color: var(--text-secondary); font-weight: 500; }
+  .remark-ts { color: var(--text-muted); font-weight: 400; margin-left: auto; white-space: nowrap; font-size: 10.5px; }
   .remark-text { font-size: 13.5px; color: #c8d0d5; line-height: 1.5; }
-  .no-remarks { font-size: 12px; color: var(--text-muted); padding: 8px 14px; font-style: italic; }
+  .no-remarks { font-size: 12px; color: var(--text-muted); padding: 9px 14px; font-style: italic; }
 
-  /* remark input */
-  .remark-input-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #1a252d; border-top: 1px solid #222d34; }
+  /* name prompt + remark input */
+  .name-prompt { display: flex; align-items: center; gap: 6px; padding: 6px 10px 0; }
+  .name-prompt input { flex: 1; background: transparent; border: none; border-bottom: 1px solid #2a3942; padding: 3px 4px; color: var(--text-secondary); font-size: 12px; outline: none; font-family: var(--font); }
+  .name-prompt input::placeholder { color: var(--text-muted); }
+  .name-prompt label { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+  .remark-input-row { display: flex; align-items: center; gap: 8px; padding: 7px 10px 8px; background: #1a252d; border-top: 1px solid #222d34; }
   .remark-input-row input { flex: 1; background: var(--search-bg); border: none; border-radius: 20px; padding: 7px 14px; color: var(--text-primary); font-size: 13px; outline: none; font-family: var(--font); }
   .remark-input-row input:focus { background: #33454f; }
   .remark-input-row input::placeholder { color: var(--text-secondary); }
   .send-btn { background: var(--accent); border: none; border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background .15s, transform .1s; color: #fff; }
   .send-btn:hover { background: var(--accent-light); transform: scale(1.07); }
   .send-btn:active { transform: scale(.95); }
-  .send-btn:disabled { opacity: .5; cursor: default; transform: none; }
+  .send-btn:disabled { opacity: .45; cursor: default; transform: none; }
 
   /* misc */
-  #empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); gap: 16px; user-select: none; }
-  #empty-state h2 { font-size: 24px; font-weight: 300; color: var(--text-primary); }
-  #empty-state p { font-size: 14px; }
-  .spinner { width: 18px; height: 18px; border: 2px solid var(--bg-hover); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
+  #empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; user-select: none; }
+  #empty-state svg { opacity: .2; }
+  #empty-state h2 { font-size: 22px; font-weight: 300; }
+  #empty-state p { font-size: 14px; color: var(--text-secondary); text-align: center; max-width: 300px; line-height: 1.6; }
+  .spinner { width: 18px; height: 18px; border: 2px solid var(--bg-hover); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; vertical-align: middle; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-row { display: flex; align-items: center; gap: 8px; padding: 20px; justify-content: center; color: var(--text-secondary); font-size: 13px; }
   .date-divider { text-align: center; font-size: 12px; color: var(--text-secondary); background: #182229cc; border-radius: 8px; padding: 4px 14px; align-self: center; }
-  .shared-badge { font-size: 11px; color: var(--accent); background: rgba(0,168,132,.12); border-radius: 20px; padding: 3px 10px; display: inline-flex; align-items: center; gap: 5px; }
-  .dot-saving { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: blink .6s infinite alternate; display: inline-block; }
-  @keyframes blink { from { opacity: .2; } to { opacity: 1; } }
+  .dot-saving { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: blink .5s infinite alternate; display: inline-block; }
+  @keyframes blink { from { opacity:.2; } to { opacity:1; } }
+  .err-inline { font-size: 11px; color: #ef9a9a; padding: 4px 14px 6px; }
+
+  /* setup guide */
+  #setup-guide { background: #0d1e26; border: 1px solid #1e3040; border-radius: 10px; padding: 20px 24px; max-width: 480px; line-height: 1.7; font-size: 13px; color: var(--text-secondary); }
+  #setup-guide h3 { color: var(--accent); font-size: 14px; margin-bottom: 10px; }
+  #setup-guide code { background: #182229; border-radius: 4px; padding: 2px 6px; font-size: 12px; color: #aed9cc; }
+  #setup-guide ol { padding-left: 18px; }
+  #setup-guide li { margin-bottom: 5px; }
 </style>
 </head>
 <body>
@@ -109,7 +126,7 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="#8696a0"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
     </div>
     <span style="font-size:15px;font-weight:600;flex:1;">Instructions Portal</span>
-    <button class="icon-btn" title="Refresh" onclick="loadCSV()">
+    <button class="icon-btn" title="Refresh" onclick="init()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
     </button>
   </div>
@@ -117,258 +134,338 @@
   <div id="search-bar">
     <div class="search-wrap">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-      <input type="text" id="search-input" placeholder="Search people…" oninput="filterPeople()">
+      <input type="text" placeholder="Search people…" oninput="filterPeople(this.value)">
     </div>
   </div>
 
   <div id="chat-list"></div>
 
-  <div id="url-bar">
-    <input type="text" id="csv-url" placeholder="Google Sheet CSV URL…"
-      value="https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Xrn8rExNsP5ErBfg5Jyrt5LBSAcJKz5Y6psQv9HZcAzkBOdqzuWztYR-Di3UpCGyCfDuaDlw5MOE/pub?gid=0&single=true&output=csv">
-    <button id="load-btn" onclick="loadCSV()">Load</button>
+  <div id="config-bar">
+    <label>📊 Google Sheet CSV URL</label>
+    <div class="config-row">
+      <input id="csv-url" placeholder="Paste Sheet CSV URL…"
+        value="https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Xrn8rExNsP5ErBfg5Jyrt5LBSAcJKz5Y6psQv9HZcAzkBOdqzuWztYR-Di3UpCGyCfDuaDlw5MOE/pub?gid=0&single=true&output=csv">
+      <button onclick="init()">Load</button>
+    </div>
+    <label style="margin-top:4px;">⚡ Apps Script Web App URL</label>
+    <div class="config-row">
+      <input id="script-url" placeholder="Paste deployed Web App URL…">
+      <button onclick="saveScriptUrl()">Save</button>
+    </div>
   </div>
 </div>
 
 <!-- MAIN -->
 <div id="main">
   <div id="empty-state">
-    <svg width="72" height="72" viewBox="0 0 24 24" fill="#8696a0" style="opacity:.25"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    <svg width="72" height="72" viewBox="0 0 24 24" fill="#8696a0"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
     <h2>Instructions Portal</h2>
-    <p>Select a person to view their instructions &amp; remarks</p>
+    <p id="empty-msg">Paste your Apps Script Web App URL in the bottom-left, then select a person to view instructions.</p>
+    <div id="setup-guide">
+      <h3>⚡ One-time Setup for Global Remarks</h3>
+      <ol>
+        <li>Open your Google Sheet → <code>Extensions → Apps Script</code></li>
+        <li>Paste the Apps Script code (provided separately) and <strong>Save</strong></li>
+        <li>Click <code>Deploy → New deployment → Web app</code></li>
+        <li>Set <em>Execute as</em>: <strong>Me</strong> &amp; <em>Who has access</em>: <strong>Anyone</strong></li>
+        <li>Copy the <strong>Web App URL</strong> and paste it in the bottom-left field</li>
+      </ol>
+      <p style="margin-top:10px;font-size:12px;">Once set up, remarks from <em>any user on any device</em> are saved to your Google Sheet's <code>Remarks</code> tab and loaded in real time.</p>
+    </div>
   </div>
 </div>
 
 <script>
-/* ── STATE ── */
-let allData    = [];
-let peopleMap  = {};
-let remarksMap = {};      // { key: [{author,text,time}] }
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+let peopleMap   = {};   // { name: [{srNo, instruction}] }
+let remarksMap  = {};   // { key: [{author,text,time}] }
 let activePerson = null;
+let scriptUrl    = '';  // Apps Script Web App URL
 
 const CSV_DEFAULT = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Xrn8rExNsP5ErBfg5Jyrt5LBSAcJKz5Y6psQv9HZcAzkBOdqzuWztYR-Di3UpCGyCfDuaDlw5MOE/pub?gid=0&single=true&output=csv";
-const STORAGE_KEY = "remarks_v2";
+const LS_SCRIPT  = 'instrPortal_scriptUrl';
+const LS_NAME    = 'instrPortal_userName';
 
-/* ── SHARED STORAGE ── */
-async function loadRemarks() {
-  try {
-    const res = await window.storage.get(STORAGE_KEY, true);
-    remarksMap = res ? JSON.parse(res.value) : {};
-  } catch { remarksMap = {}; }
-}
-async function saveRemarks() {
-  try { await window.storage.set(STORAGE_KEY, JSON.stringify(remarksMap), true); }
-  catch(e) { console.warn('storage save failed', e); }
-}
-
-/* ── HELPERS ── */
+/* ══════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════ */
 const COLORS = ['#d32f2f','#c2185b','#7b1fa2','#512da8','#1976d2','#0288d1','#00796b','#388e3c','#f57c00','#5d4037'];
-function colorFor(name) {
-  let h = 0;
-  for (const c of name) h = (h * 31 + c.charCodeAt(0)) & 0xffffffff;
-  return COLORS[Math.abs(h) % COLORS.length];
-}
-function initials(name) {
-  return name.split(/[\s\/\-]+/).map(w => w[0]).filter(Boolean).join('').toUpperCase().slice(0,2);
-}
-function esc(s) {
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function colorFor(s) { let h=0; for(const c of s) h=(h*31+c.charCodeAt(0))&0xffffffff; return COLORS[Math.abs(h)%COLORS.length]; }
+function initials(s) { return s.split(/[\s\/\-]+/).map(w=>w[0]).filter(Boolean).join('').toUpperCase().slice(0,2); }
+function esc(s)      { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function rmKey(srNo, idx) { return ('sr_'+(srNo||'r'+idx)).replace(/\W+/g,'_'); }
 function fmtTime(ts) {
   const d = new Date(ts);
-  return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'}) + ' ' +
+  if (isNaN(d)) return ts;
+  return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'}) + ' ' +
          d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
 }
-function remarkKey(srNo, idx) {
-  return ('sr_' + (srNo || 'r'+idx)).replace(/\W+/g,'_');
+function getUserName() {
+  let n = localStorage.getItem(LS_NAME) || '';
+  if (!n) { n = prompt('Enter your name (shown on remarks):', '') || 'Anonymous'; localStorage.setItem(LS_NAME, n); }
+  return n;
 }
 
-/* ── CSV PARSER (RFC-4180, multi-line safe) ── */
-function parseCSVFull(text) {
-  text = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
-  const records = []; let i = 0, n = text.length;
-  while (i < n) {
-    const rec = [];
-    while (i < n) {
-      let f = '';
-      if (text[i] === '"') {
-        i++;
-        while (i < n) {
-          if (text[i] === '"') {
-            if (i+1<n && text[i+1]==='"') { f+='"'; i+=2; }
-            else { i++; break; }
-          } else f += text[i++];
-        }
-      } else {
-        while (i<n && text[i]!==',' && text[i]!=='\n') f += text[i++];
-      }
-      rec.push(f.trim());
-      if (i<n && text[i]===',') { i++; continue; }
-      break;
-    }
-    if (i<n && text[i]==='\n') i++;
-    if (rec.length && !(rec.length===1 && rec[0]==='')) records.push(rec);
-  }
-  if (records.length < 2) return [];
+/* ══════════════════════════════════════════
+   APPS SCRIPT API
+══════════════════════════════════════════ */
+async function gasGet(params) {
+  if (!scriptUrl) return null;
+  const url = scriptUrl + '?' + new URLSearchParams(params).toString();
+  try {
+    const r = await fetch(url);
+    return await r.json();
+  } catch(e) { console.warn('GAS get failed', e); return null; }
+}
 
-  const hdrs = records[0].map(h => h.toLowerCase().replace(/[^a-z0-9]/g,''));
-  const srC  = hdrs.findIndex(h => h.startsWith('sr') || h==='no' || h==='srno');
-  const insC = hdrs.findIndex(h => h.includes('instruction'));
-  const actC = hdrs.findIndex(h => h.includes('action'));
-  const sr = srC>=0?srC:0, ins = insC>=0?insC:1, act = actC>=0?actC:records[0].length-1;
+async function gasPost(params) {
+  if (!scriptUrl) return null;
+  // Apps Script doGet works fine for simple POSTs via URL params too
+  const url = scriptUrl + '?' + new URLSearchParams(params).toString();
+  try {
+    const r = await fetch(url, { method: 'POST' });
+    return await r.json();
+  } catch(e) {
+    // CORS fallback: Apps Script GET works cross-origin
+    try {
+      const r2 = await fetch(url);
+      return await r2.json();
+    } catch(e2) { console.warn('GAS post failed', e2); return null; }
+  }
+}
+
+async function fetchRemarks() {
+  const data = await gasGet({ action: 'getRemarks' });
+  if (data && data.ok) remarksMap = data.remarks || {};
+}
+
+async function postRemark(key, author, text) {
+  return await gasPost({ action: 'addRemark', key, author, text });
+}
+
+function saveScriptUrl() {
+  const val = document.getElementById('script-url').value.trim();
+  if (!val) return;
+  scriptUrl = val;
+  localStorage.setItem(LS_SCRIPT, val);
+  document.getElementById('empty-msg').textContent = 'Script URL saved! Select a person to begin.';
+  init();
+}
+
+/* ══════════════════════════════════════════
+   CSV PARSER  (RFC-4180, multi-line safe)
+══════════════════════════════════════════ */
+function parseCSV(text) {
+  text = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  const records=[]; let i=0,n=text.length;
+  while(i<n){
+    const rec=[];
+    while(i<n){
+      let f='';
+      if(text[i]==='"'){
+        i++;
+        while(i<n){
+          if(text[i]==='"'){ if(i+1<n&&text[i+1]==='"'){f+='"';i+=2;}else{i++;break;} }
+          else f+=text[i++];
+        }
+      } else { while(i<n&&text[i]!==','&&text[i]!=='\n') f+=text[i++]; }
+      rec.push(f.trim());
+      if(i<n&&text[i]===','){i++;continue;} break;
+    }
+    if(i<n&&text[i]==='\n') i++;
+    if(rec.length&&!(rec.length===1&&rec[0]==='')) records.push(rec);
+  }
+  if(records.length<2) return [];
+
+  const hdr = records[0].map(h=>h.toLowerCase().replace(/[^a-z0-9]/g,''));
+  const srC = hdr.findIndex(h=>h.startsWith('sr')||h==='no'||h==='srno');
+  const inC = hdr.findIndex(h=>h.includes('instruction'));
+  const acC = hdr.findIndex(h=>h.includes('action'));
+  const sr=srC>=0?srC:0, ins=inC>=0?inC:1, act=acC>=0?acC:records[0].length-1;
 
   return records.slice(1)
-    .filter(c => c && !c.every(x=>!x))
-    .map(c => ({ srNo:(c[sr]||'').trim(), instruction:(c[ins]||'').trim(), actionBy:(c[act]||'').trim() }));
+    .filter(c=>c&&!c.every(x=>!x))
+    .map(c=>({srNo:(c[sr]||'').trim(),instruction:(c[ins]||'').trim(),actionBy:(c[act]||'').trim()}));
 }
 
-function buildPeopleMap(rows) {
-  const map = {};
-  for (const row of rows) {
-    for (const p of row.actionBy.split(',').map(p=>p.trim().replace(/"/g,'')).filter(Boolean)) {
-      if (!map[p]) map[p] = [];
-      map[p].push({ srNo: row.srNo, instruction: row.instruction });
+function buildPeopleMap(rows){
+  const m={};
+  for(const row of rows){
+    for(const p of row.actionBy.split(',').map(p=>p.trim().replace(/"/g,'')).filter(Boolean)){
+      if(!m[p]) m[p]=[];
+      m[p].push({srNo:row.srNo,instruction:row.instruction});
     }
   }
-  return map;
+  return m;
 }
 
-/* ── LOAD CSV ── */
-async function loadCSV() {
-  const url = document.getElementById('csv-url').value.trim() || CSV_DEFAULT;
-  const cl = document.getElementById('chat-list');
-  cl.innerHTML = '<div class="loading-row"><div class="spinner"></div>&nbsp;Loading…</div>';
-
-  let text = null, lastErr = '';
-  for (const p of [
-    `https://corsproxy.io/?${encodeURIComponent(url)}`,
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-    url
-  ]) {
-    try {
-      const r = await fetch(p);
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      text = await r.text();
-      if (text && text.length > 10) break;
-    } catch(e) { lastErr = e.message; }
+/* ══════════════════════════════════════════
+   INIT / LOAD
+══════════════════════════════════════════ */
+async function init() {
+  // restore saved script URL
+  const saved = localStorage.getItem(LS_SCRIPT);
+  if (saved && !scriptUrl) {
+    scriptUrl = saved;
+    document.getElementById('script-url').value = saved;
   }
 
-  if (!text) { cl.innerHTML = `<div class="loading-row" style="color:#ef5350">Failed: ${lastErr}</div>`; return; }
+  const csvUrl = document.getElementById('csv-url').value.trim() || CSV_DEFAULT;
+  const cl = document.getElementById('chat-list');
+  cl.innerHTML = '<div class="loading-row"><div class="spinner"></div>&nbsp;Loading sheet…</div>';
+
+  // fetch CSV
+  let text=null, lastErr='';
+  for(const p of[
+    `https://corsproxy.io/?${encodeURIComponent(csvUrl)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`,
+    csvUrl
+  ]){
+    try{ const r=await fetch(p); if(!r.ok) throw new Error(`HTTP ${r.status}`); text=await r.text(); if(text&&text.length>10) break; }
+    catch(e){ lastErr=e.message; }
+  }
+  if(!text){ cl.innerHTML=`<div class="loading-row" style="color:#ef5350">CSV failed: ${lastErr}</div>`; return; }
 
   try {
-    allData   = parseCSVFull(text);
-    peopleMap = buildPeopleMap(allData);
-    await loadRemarks();
+    const rows = parseCSV(text);
+    peopleMap  = buildPeopleMap(rows);
+
+    // fetch remarks from Apps Script (if configured)
+    if (scriptUrl) {
+      cl.innerHTML = '<div class="loading-row"><div class="spinner"></div>&nbsp;Loading remarks…</div>';
+      await fetchRemarks();
+    }
+
     renderSidebar(Object.keys(peopleMap));
     if (activePerson && peopleMap[activePerson]) openChat(activePerson);
-  } catch(e) {
-    cl.innerHTML = `<div class="loading-row" style="color:#ef5350">Parse error: ${e.message}</div>`;
+    else hideSetupGuide();
+  } catch(e){
+    cl.innerHTML=`<div class="loading-row" style="color:#ef5350">Parse error: ${e.message}</div>`;
   }
 }
 
-/* ── SIDEBAR ── */
-function renderSidebar(people) {
-  const cl = document.getElementById('chat-list');
-  cl.innerHTML = '';
-  if (!people.length) { cl.innerHTML = '<div class="loading-row">No people found</div>'; return; }
-  for (const name of people) {
-    const items = peopleMap[name]||[];
-    const preview = items.length ? items[0].instruction.slice(0,55)+'…' : '';
-    const el = document.createElement('div');
-    el.className = 'chat-item' + (name===activePerson?' active':'');
-    el.dataset.name = name;
-    el.innerHTML = `
+function hideSetupGuide(){
+  const sg = document.getElementById('setup-guide');
+  if(sg && scriptUrl) sg.style.display='none';
+}
+
+/* ══════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════ */
+function renderSidebar(people){
+  const cl=document.getElementById('chat-list');
+  cl.innerHTML='';
+  if(!people.length){ cl.innerHTML='<div class="loading-row">No people found</div>'; return; }
+  for(const name of people){
+    const items=peopleMap[name]||[];
+    const prev=items.length?items[0].instruction.slice(0,55)+'…':'';
+    const el=document.createElement('div');
+    el.className='chat-item'+(name===activePerson?' active':'');
+    el.dataset.name=name;
+    el.innerHTML=`
       <div class="avatar" style="background:${colorFor(name)}">${initials(name)}</div>
       <div class="chat-info">
         <div class="chat-name">${esc(name)}</div>
-        <div class="chat-preview">${esc(preview)}</div>
+        <div class="chat-preview">${esc(prev)}</div>
       </div>
       <div class="chat-badge">${items.length}</div>`;
-    el.onclick = () => openChat(name);
+    el.onclick=()=>openChat(name);
     cl.appendChild(el);
   }
 }
-function filterPeople() {
-  const q = document.getElementById('search-input').value.toLowerCase();
-  renderSidebar(Object.keys(peopleMap).filter(p=>p.toLowerCase().includes(q)));
+
+function filterPeople(q){
+  renderSidebar(Object.keys(peopleMap).filter(p=>p.toLowerCase().includes(q.toLowerCase())));
 }
 
-/* ── OPEN CHAT ── */
-async function openChat(name) {
-  activePerson = name;
-  document.querySelectorAll('.chat-item').forEach(el=>el.classList.toggle('active', el.dataset.name===name));
-  await loadRemarks();
+/* ══════════════════════════════════════════
+   OPEN CHAT
+══════════════════════════════════════════ */
+async function openChat(name){
+  activePerson=name;
+  document.querySelectorAll('.chat-item').forEach(el=>el.classList.toggle('active',el.dataset.name===name));
 
-  const items = peopleMap[name]||[];
-  const main  = document.getElementById('main');
-  main.innerHTML = `
+  const items=peopleMap[name]||[];
+  const main=document.getElementById('main');
+
+  // fresh remarks from sheet
+  if(scriptUrl){
+    main.innerHTML=`<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--text-secondary);font-size:13px;"><div class="spinner"></div> Loading remarks…</div>`;
+    await fetchRemarks();
+  }
+
+  main.innerHTML=`
     <div id="chat-header">
       <div class="avatar" style="background:${colorFor(name)}">${initials(name)}</div>
       <div>
         <div id="chat-header-name">${esc(name)}</div>
         <div id="chat-header-sub">${items.length} instruction${items.length!==1?'s':''}</div>
       </div>
-      <div id="chat-header-actions">
-        <span class="shared-badge">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-          Remarks visible to all users
-        </span>
+      <div class="header-right">
+        ${scriptUrl
+          ? `<span class="live-badge"><span class="live-dot"></span>Remarks synced to Google Sheet</span>`
+          : `<span style="font-size:11px;color:var(--text-muted);">⚠️ Add Script URL to enable global remarks</span>`}
+        <button class="icon-btn" title="Refresh remarks" onclick="openChat('${esc(name)}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        </button>
       </div>
     </div>
     <div id="messages"></div>`;
 
-  const msgs = document.getElementById('messages');
-  msgs.innerHTML = '<div class="date-divider">Instructions &amp; Remarks</div>';
+  const msgs=document.getElementById('messages');
+  msgs.innerHTML='<div class="date-divider">Instructions &amp; Remarks</div>';
 
-  items.forEach((item, idx) => {
-    const key  = remarkKey(item.srNo, idx);
-    const wrap = document.createElement('div');
-    wrap.className = 'msg-wrap';
-    wrap.style.animationDelay = `${idx*35}ms`;
+  items.forEach((item,idx)=>{
+    const key=rmKey(item.srNo,idx);
+    const wrap=document.createElement('div');
+    wrap.className='msg-wrap';
+    wrap.style.animationDelay=`${idx*40}ms`;
 
     // instruction bubble
-    const bubble = document.createElement('div');
-    bubble.className = 'msg-bubble';
-    bubble.innerHTML = `
+    const bubble=document.createElement('div');
+    bubble.className='msg-bubble';
+    bubble.innerHTML=`
       <div class="msg-sr"><span class="tag">${esc(item.srNo||'#'+(idx+1))}</span>Instruction</div>
       <div class="msg-text">${esc(item.instruction)}</div>
       <div class="msg-footer">${esc(name)}</div>`;
 
     // remarks block
-    const rs = document.createElement('div');
-    rs.className = 'remarks-section';
-    rs.id = 'rs_' + key;
+    const rs=document.createElement('div');
+    rs.className='remarks-section';
+    rs.id='rs_'+key;
 
     wrap.appendChild(bubble);
     wrap.appendChild(rs);
     msgs.appendChild(wrap);
-
-    renderRemarks(rs, key);
+    renderRemarks(rs,key);
   });
 
-  msgs.scrollTop = 0;
+  msgs.scrollTop=0;
 }
 
-/* ── RENDER REMARKS for one instruction ── */
-function renderRemarks(container, key) {
-  const list = remarksMap[key] || [];
-  container.innerHTML = '';
+/* ══════════════════════════════════════════
+   RENDER REMARKS
+══════════════════════════════════════════ */
+function renderRemarks(container, key){
+  const list=remarksMap[key]||[];
+  container.innerHTML='';
 
-  // existing remarks
-  if (list.length === 0) {
-    const empty = document.createElement('div');
-    empty.className = 'no-remarks';
-    empty.textContent = 'No remarks yet — add one below';
-    container.appendChild(empty);
+  // list
+  if(!list.length){
+    const e=document.createElement('div');
+    e.className='no-remarks';
+    e.textContent='No remarks yet — be the first to comment';
+    container.appendChild(e);
   } else {
-    list.forEach(r => {
-      const d = document.createElement('div');
-      d.className = 'remark-item';
-      d.innerHTML = `
+    list.forEach(r=>{
+      const d=document.createElement('div');
+      d.className='remark-item';
+      d.innerHTML=`
         <div class="remark-meta">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-          Remark
-          <span class="remark-by">— ${esc(r.author)}</span>
+          <span class="remark-author">${esc(r.author)}</span>
           <span class="remark-ts">${fmtTime(r.time)}</span>
         </div>
         <div class="remark-text">${esc(r.text)}</div>`;
@@ -376,49 +473,86 @@ function renderRemarks(container, key) {
     });
   }
 
-  // input row
-  const row = document.createElement('div');
-  row.className = 'remark-input-row';
+  // name field + input
+  const nameRow=document.createElement('div');
+  nameRow.className='name-prompt';
+  const nameLabel=document.createElement('label');
+  nameLabel.textContent='Your name:';
+  const nameInp=document.createElement('input');
+  nameInp.type='text';
+  nameInp.placeholder='Anonymous';
+  nameInp.value=localStorage.getItem(LS_NAME)||'';
+  nameInp.onchange=()=>localStorage.setItem(LS_NAME,nameInp.value.trim()||'Anonymous');
+  nameRow.appendChild(nameLabel);
+  nameRow.appendChild(nameInp);
 
-  const inp = document.createElement('input');
-  inp.type = 'text';
-  inp.placeholder = 'Write a remark…';
-  inp.maxLength = 500;
+  const inputRow=document.createElement('div');
+  inputRow.className='remark-input-row';
+  const inp=document.createElement('input');
+  inp.type='text';
+  inp.placeholder=scriptUrl?'Write a remark… (syncs to Google Sheet)':'Write a remark…';
+  inp.maxLength=500;
 
-  const btn = document.createElement('button');
-  btn.className = 'send-btn';
-  btn.title = 'Send remark (Enter)';
-  btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>`;
+  const btn=document.createElement('button');
+  btn.className='send-btn';
+  btn.title='Send (Enter)';
+  btn.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>`;
 
-  const send = async () => {
-    const txt = inp.value.trim();
-    if (!txt) return;
-    inp.disabled = true;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="dot-saving"></span>';
+  const errDiv=document.createElement('div');
+  errDiv.className='err-inline';
 
-    if (!remarksMap[key]) remarksMap[key] = [];
-    remarksMap[key].push({ author: 'User', text: txt, time: Date.now() });
-    await saveRemarks();
+  const send=async()=>{
+    const txt=inp.value.trim();
+    if(!txt) return;
+    const author=(nameInp.value.trim()||localStorage.getItem(LS_NAME)||'Anonymous');
+    localStorage.setItem(LS_NAME,author);
 
-    inp.value = '';
-    inp.disabled = false;
-    btn.disabled = false;
-    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>`;
-    renderRemarks(container, key);
+    inp.disabled=btn.disabled=true;
+    btn.innerHTML='<span class="dot-saving"></span>';
+    errDiv.textContent='';
+
+    if(scriptUrl){
+      const res=await postRemark(key,author,txt);
+      if(!res||!res.ok){
+        errDiv.textContent='⚠️ Could not save to sheet. Check your Script URL.';
+        inp.disabled=btn.disabled=false;
+        btn.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>`;
+        return;
+      }
+      // update local cache too
+      if(!remarksMap[key]) remarksMap[key]=[];
+      remarksMap[key].push({author,text:txt,time:new Date().toISOString()});
+    } else {
+      // no script: just show locally (session only)
+      if(!remarksMap[key]) remarksMap[key]=[];
+      remarksMap[key].push({author,text:txt,time:new Date().toISOString()});
+    }
+
+    inp.value='';
+    inp.disabled=btn.disabled=false;
+    btn.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>`;
+    renderRemarks(container,key);
     inp.focus();
   };
 
-  btn.onclick = send;
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+  btn.onclick=send;
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
 
-  row.appendChild(inp);
-  row.appendChild(btn);
-  container.appendChild(row);
+  inputRow.appendChild(inp);
+  inputRow.appendChild(btn);
+  container.appendChild(nameRow);
+  container.appendChild(inputRow);
+  container.appendChild(errDiv);
 }
 
-/* ── INIT ── */
-window.onload = loadCSV;
+/* ══════════════════════════════════════════
+   START
+══════════════════════════════════════════ */
+window.onload=()=>{
+  const saved=localStorage.getItem(LS_SCRIPT);
+  if(saved){ scriptUrl=saved; document.getElementById('script-url').value=saved; }
+  init();
+};
 </script>
 </body>
 </html>
