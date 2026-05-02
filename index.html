@@ -6,314 +6,98 @@
 <title>Instructions Portal</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   :root {
-    --bg-main: #111b21;
-    --bg-sidebar: #111b21;
-    --bg-chat: #0b141a;
-    --bg-panel: #202c33;
-    --bg-hover: #2a3942;
-    --bg-active: #2a3942;
+    --bg-main: #111b21; --bg-sidebar: #111b21; --bg-chat: #0b141a;
+    --bg-hover: #2a3942; --bg-active: #2a3942;
     --bg-bubble-in: #202c33;
-    --bg-bubble-out: #005c4b;
-    --accent: #00a884;
-    --accent-light: #00cf9d;
-    --text-primary: #e9edef;
-    --text-secondary: #8696a0;
-    --text-muted: #667781;
-    --border: #222d34;
-    --search-bg: #2a3942;
-    --header-bg: #202c33;
-    --divider: #222d34;
-    --badge: #00a884;
-    --font: 'Inter', -apple-system, sans-serif;
+    --accent: #00a884; --accent-light: #00cf9d;
+    --text-primary: #e9edef; --text-secondary: #8696a0; --text-muted: #667781;
+    --border: #222d34; --search-bg: #2a3942; --header-bg: #202c33;
+    --divider: #222d34; --font: 'Inter', -apple-system, sans-serif;
   }
-
-  body {
-    font-family: var(--font);
-    background: var(--bg-main);
-    color: var(--text-primary);
-    height: 100vh;
-    display: flex;
-    overflow: hidden;
-  }
+  body { font-family: var(--font); background: var(--bg-main); color: var(--text-primary); height: 100vh; display: flex; overflow: hidden; }
 
   /* ── SIDEBAR ── */
-  #sidebar {
-    width: 360px;
-    min-width: 280px;
-    display: flex;
-    flex-direction: column;
-    background: var(--bg-sidebar);
-    border-right: 1px solid var(--border);
-  }
-
-  #sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    background: var(--header-bg);
-    height: 59px;
-  }
-
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    flex-shrink: 0;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .sidebar-icons { display: flex; gap: 8px; }
-  .icon-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    transition: background 0.15s, color 0.15s;
-  }
+  #sidebar { width: 360px; min-width: 260px; display: flex; flex-direction: column; background: var(--bg-sidebar); border-right: 1px solid var(--border); }
+  #sidebar-header { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--header-bg); height: 59px; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; color: #fff; flex-shrink: 0; user-select: none; }
+  .icon-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 6px; border-radius: 50%; display: flex; align-items: center; transition: background .15s, color .15s; }
   .icon-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
-
-  #search-bar {
-    padding: 8px 12px;
-    background: var(--bg-sidebar);
-  }
-  #search-bar input {
-    width: 100%;
-    background: var(--search-bg);
-    border: none;
-    border-radius: 8px;
-    padding: 8px 12px 8px 36px;
-    color: var(--text-primary);
-    font-size: 14px;
-    outline: none;
-    font-family: var(--font);
-  }
+  #search-bar { padding: 8px 12px; }
+  #search-bar input { width: 100%; background: var(--search-bg); border: none; border-radius: 8px; padding: 8px 12px 8px 36px; color: var(--text-primary); font-size: 14px; outline: none; font-family: var(--font); }
   #search-bar input::placeholder { color: var(--text-secondary); }
   .search-wrap { position: relative; }
   .search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; }
-
   #chat-list { overflow-y: auto; flex: 1; }
   #chat-list::-webkit-scrollbar { width: 6px; }
   #chat-list::-webkit-scrollbar-thumb { background: var(--bg-hover); border-radius: 3px; }
-
-  .chat-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 16px;
-    gap: 12px;
-    cursor: pointer;
-    border-bottom: 1px solid var(--divider);
-    transition: background 0.12s;
-    position: relative;
-  }
+  .chat-item { display: flex; align-items: center; padding: 10px 16px; gap: 12px; cursor: pointer; border-bottom: 1px solid var(--divider); transition: background .12s; }
   .chat-item:hover { background: var(--bg-hover); }
   .chat-item.active { background: var(--bg-active); }
-
   .chat-info { flex: 1; min-width: 0; }
-  .chat-name {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .chat-preview {
-    font-size: 13px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 2px;
-  }
-  .chat-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-  .chat-time { font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
-  .chat-badge {
-    background: var(--badge);
-    color: #fff;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  .chat-name { font-size: 16px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chat-preview { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+  .chat-badge { background: var(--accent); color: #fff; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+  #url-bar { padding: 10px 12px; background: var(--header-bg); border-top: 1px solid var(--border); display: flex; gap: 6px; }
+  #csv-url { flex: 1; background: var(--search-bg); border: none; border-radius: 8px; padding: 7px 10px; color: var(--text-primary); font-size: 12px; outline: none; font-family: var(--font); }
+  #csv-url::placeholder { color: var(--text-secondary); }
+  #load-btn { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font); transition: background .15s; white-space: nowrap; }
+  #load-btn:hover { background: var(--accent-light); }
 
-  /* ── MAIN CHAT AREA ── */
-  #main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background: var(--bg-chat);
-    position: relative;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23182229' fill-opacity='0.8'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  #chat-header {
-    display: flex;
-    align-items: center;
-    padding: 10px 16px;
-    background: var(--header-bg);
-    border-bottom: 1px solid var(--border);
-    height: 59px;
-    gap: 12px;
-    flex-shrink: 0;
-  }
-  #chat-header-name { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+  /* ── MAIN ── */
+  #main { flex: 1; display: flex; flex-direction: column; background: var(--bg-chat);
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23182229' fill-opacity='0.8'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+  #chat-header { display: flex; align-items: center; padding: 10px 16px; background: var(--header-bg); border-bottom: 1px solid var(--border); min-height: 59px; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+  #chat-header-name { font-size: 16px; font-weight: 600; }
   #chat-header-sub { font-size: 13px; color: var(--text-secondary); }
-  #chat-header-actions { margin-left: auto; display: flex; gap: 4px; }
+  #chat-header-actions { margin-left: auto; }
 
-  #messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 12px 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
+  #messages { flex: 1; overflow-y: auto; padding: 16px 40px; display: flex; flex-direction: column; gap: 16px; }
   #messages::-webkit-scrollbar { width: 6px; }
   #messages::-webkit-scrollbar-thumb { background: #2a3942; border-radius: 3px; }
 
-  .msg-bubble {
-    max-width: 65%;
-    background: var(--bg-bubble-in);
-    border-radius: 7.5px 7.5px 7.5px 0;
-    padding: 8px 12px 22px;
-    position: relative;
-    margin-bottom: 2px;
-    align-self: flex-start;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    animation: fadeIn 0.25s ease;
-  }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  /* instruction card */
+  .msg-wrap { max-width: 72%; align-self: flex-start; display: flex; flex-direction: column; animation: fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
 
-  .msg-sr {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent);
-    margin-bottom: 4px;
-    letter-spacing: 0.3px;
-  }
-  .msg-text {
-    font-size: 14.2px;
-    line-height: 1.55;
-    color: var(--text-primary);
-    white-space: pre-wrap;
-  }
-  .msg-time {
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
+  .msg-bubble { background: var(--bg-bubble-in); border-radius: 7.5px 7.5px 0 0; padding: 10px 14px 22px; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,.35); }
+  .msg-sr { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 5px; }
+  .tag { display: inline-block; background: rgba(0,168,132,.15); color: var(--accent); border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: 700; margin-right: 5px; }
+  .msg-text { font-size: 14px; line-height: 1.58; color: var(--text-primary); white-space: pre-wrap; }
+  .msg-footer { position: absolute; bottom: 5px; right: 10px; font-size: 11px; color: var(--text-muted); }
 
-  .date-divider {
-    text-align: center;
-    margin: 12px 0;
-    font-size: 12px;
-    color: var(--text-secondary);
-    background: #182229cc;
-    border-radius: 8px;
-    padding: 4px 12px;
-    align-self: center;
-  }
+  /* remarks block */
+  .remarks-section { background: #16212880; border: 1px solid #1e2c34; border-top: none; border-radius: 0 0 7.5px 7.5px; overflow: hidden; }
+  .remark-item { padding: 8px 14px; border-bottom: 1px solid #1a252d; }
+  .remark-item:last-child { border-bottom: none; }
+  .remark-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 3px; }
+  .remark-by { color: var(--text-secondary); font-weight: 400; }
+  .remark-ts { color: var(--text-muted); font-weight: 400; margin-left: auto; white-space: nowrap; }
+  .remark-text { font-size: 13.5px; color: #c8d0d5; line-height: 1.5; }
+  .no-remarks { font-size: 12px; color: var(--text-muted); padding: 8px 14px; font-style: italic; }
 
-  /* EMPTY STATE */
-  #empty-state {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    gap: 16px;
-    user-select: none;
-  }
-  #empty-state svg { opacity: 0.3; }
+  /* remark input */
+  .remark-input-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #1a252d; border-top: 1px solid #222d34; }
+  .remark-input-row input { flex: 1; background: var(--search-bg); border: none; border-radius: 20px; padding: 7px 14px; color: var(--text-primary); font-size: 13px; outline: none; font-family: var(--font); }
+  .remark-input-row input:focus { background: #33454f; }
+  .remark-input-row input::placeholder { color: var(--text-secondary); }
+  .send-btn { background: var(--accent); border: none; border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background .15s, transform .1s; color: #fff; }
+  .send-btn:hover { background: var(--accent-light); transform: scale(1.07); }
+  .send-btn:active { transform: scale(.95); }
+  .send-btn:disabled { opacity: .5; cursor: default; transform: none; }
+
+  /* misc */
+  #empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); gap: 16px; user-select: none; }
   #empty-state h2 { font-size: 24px; font-weight: 300; color: var(--text-primary); }
   #empty-state p { font-size: 14px; }
-
-  /* LOADING */
-  #loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    gap: 8px;
-    color: var(--text-secondary);
-    font-size: 14px;
-  }
-  .spinner {
-    width: 18px; height: 18px;
-    border: 2px solid var(--bg-hover);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
+  .spinner { width: 18px; height: 18px; border: 2px solid var(--bg-hover); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* URL input */
-  #url-bar {
-    padding: 10px 16px;
-    background: var(--header-bg);
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 8px;
-  }
-  #csv-url {
-    flex: 1;
-    background: var(--search-bg);
-    border: none;
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: var(--text-primary);
-    font-size: 13px;
-    outline: none;
-    font-family: var(--font);
-  }
-  #csv-url::placeholder { color: var(--text-secondary); }
-  #load-btn {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: var(--font);
-    transition: background 0.15s;
-  }
-  #load-btn:hover { background: var(--accent-light); }
-
-  .tag {
-    display: inline-block;
-    background: rgba(0,168,132,0.15);
-    color: var(--accent);
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-size: 11px;
-    font-weight: 600;
-    margin-right: 4px;
-  }
+  .loading-row { display: flex; align-items: center; gap: 8px; padding: 20px; justify-content: center; color: var(--text-secondary); font-size: 13px; }
+  .date-divider { text-align: center; font-size: 12px; color: var(--text-secondary); background: #182229cc; border-radius: 8px; padding: 4px 14px; align-self: center; }
+  .shared-badge { font-size: 11px; color: var(--accent); background: rgba(0,168,132,.12); border-radius: 20px; padding: 3px 10px; display: inline-flex; align-items: center; gap: 5px; }
+  .dot-saving { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: blink .6s infinite alternate; display: inline-block; }
+  @keyframes blink { from { opacity: .2; } to { opacity: 1; } }
 </style>
 </head>
 <body>
@@ -322,28 +106,26 @@
 <div id="sidebar">
   <div id="sidebar-header">
     <div class="avatar" style="background:#2a3942;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="#8696a0"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#8696a0"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
     </div>
-    <div class="sidebar-icons">
-      <button class="icon-btn" title="Refresh" onclick="loadCSV()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-      </button>
-    </div>
+    <span style="font-size:15px;font-weight:600;flex:1;">Instructions Portal</span>
+    <button class="icon-btn" title="Refresh" onclick="loadCSV()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+    </button>
   </div>
 
   <div id="search-bar">
     <div class="search-wrap">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-      <input type="text" id="search-input" placeholder="Search or start new chat" oninput="filterPeople()">
+      <input type="text" id="search-input" placeholder="Search people…" oninput="filterPeople()">
     </div>
   </div>
 
-  <div id="chat-list">
-    <div id="loading" style="display:none;"><div class="spinner"></div> Loading data…</div>
-  </div>
+  <div id="chat-list"></div>
 
   <div id="url-bar">
-    <input type="text" id="csv-url" placeholder="Google Sheet CSV URL…" value="https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Xrn8rExNsP5ErBfg5Jyrt5LBSAcJKz5Y6psQv9HZcAzkBOdqzuWztYR-Di3UpCGyCfDuaDlw5MOE/pub?gid=0&single=true&output=csv">
+    <input type="text" id="csv-url" placeholder="Google Sheet CSV URL…"
+      value="https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Xrn8rExNsP5ErBfg5Jyrt5LBSAcJKz5Y6psQv9HZcAzkBOdqzuWztYR-Di3UpCGyCfDuaDlw5MOE/pub?gid=0&single=true&output=csv">
     <button id="load-btn" onclick="loadCSV()">Load</button>
   </div>
 </div>
@@ -351,103 +133,99 @@
 <!-- MAIN -->
 <div id="main">
   <div id="empty-state">
-    <svg width="80" height="80" viewBox="0 0 24 24" fill="#8696a0"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    <svg width="72" height="72" viewBox="0 0 24 24" fill="#8696a0" style="opacity:.25"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
     <h2>Instructions Portal</h2>
-    <p>Select a person to view their assigned instructions</p>
+    <p>Select a person to view their instructions &amp; remarks</p>
   </div>
 </div>
 
 <script>
-let allData = [];  // [{srNo, instruction, actionBy}]
-let peopleMap = {}; // {name: [{srNo, instruction}]}
+/* ── STATE ── */
+let allData    = [];
+let peopleMap  = {};
+let remarksMap = {};      // { key: [{author,text,time}] }
 let activePerson = null;
 
-const DEFAULT_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Xrn8rExNsP5ErBfg5Jyrt5LBSAcJKz5Y6psQv9HZcAzkBOdqzuWztYR-Di3UpCGyCfDuaDlw5MOE/pub?gid=0&single=true&output=csv";
+const CSV_DEFAULT = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Xrn8rExNsP5ErBfg5Jyrt5LBSAcJKz5Y6psQv9HZcAzkBOdqzuWztYR-Di3UpCGyCfDuaDlw5MOE/pub?gid=0&single=true&output=csv";
+const STORAGE_KEY = "remarks_v2";
 
+/* ── SHARED STORAGE ── */
+async function loadRemarks() {
+  try {
+    const res = await window.storage.get(STORAGE_KEY, true);
+    remarksMap = res ? JSON.parse(res.value) : {};
+  } catch { remarksMap = {}; }
+}
+async function saveRemarks() {
+  try { await window.storage.set(STORAGE_KEY, JSON.stringify(remarksMap), true); }
+  catch(e) { console.warn('storage save failed', e); }
+}
+
+/* ── HELPERS ── */
 const COLORS = ['#d32f2f','#c2185b','#7b1fa2','#512da8','#1976d2','#0288d1','#00796b','#388e3c','#f57c00','#5d4037'];
 function colorFor(name) {
-  let h = 0; for (let c of name) h = (h * 31 + c.charCodeAt(0)) & 0xffffffff;
+  let h = 0;
+  for (const c of name) h = (h * 31 + c.charCodeAt(0)) & 0xffffffff;
   return COLORS[Math.abs(h) % COLORS.length];
 }
 function initials(name) {
-  return name.split(/[\s\/]+/).map(w => w[0]).join('').toUpperCase().slice(0,2);
+  return name.split(/[\s\/\-]+/).map(w => w[0]).filter(Boolean).join('').toUpperCase().slice(0,2);
+}
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtTime(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'}) + ' ' +
+         d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+}
+function remarkKey(srNo, idx) {
+  return ('sr_' + (srNo || 'r'+idx)).replace(/\W+/g,'_');
 }
 
-// Full RFC-4180 CSV parser — handles multi-line quoted fields correctly
+/* ── CSV PARSER (RFC-4180, multi-line safe) ── */
 function parseCSVFull(text) {
-  // Normalise line endings
-  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-
-  const records = [];
-  let i = 0;
-  const n = text.length;
-
+  text = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  const records = []; let i = 0, n = text.length;
   while (i < n) {
-    const record = [];
-    // parse one row
+    const rec = [];
     while (i < n) {
-      let field = '';
+      let f = '';
       if (text[i] === '"') {
-        // quoted field
-        i++; // skip opening quote
+        i++;
         while (i < n) {
           if (text[i] === '"') {
-            if (i + 1 < n && text[i + 1] === '"') {
-              field += '"'; i += 2; // escaped quote
-            } else {
-              i++; break; // closing quote
-            }
-          } else {
-            field += text[i++];
-          }
+            if (i+1<n && text[i+1]==='"') { f+='"'; i+=2; }
+            else { i++; break; }
+          } else f += text[i++];
         }
       } else {
-        // unquoted field — read until comma or newline
-        while (i < n && text[i] !== ',' && text[i] !== '\n') {
-          field += text[i++];
-        }
+        while (i<n && text[i]!==',' && text[i]!=='\n') f += text[i++];
       }
-      record.push(field.trim());
-      if (i < n && text[i] === ',') { i++; continue; } // next field
-      break; // end of record
+      rec.push(f.trim());
+      if (i<n && text[i]===',') { i++; continue; }
+      break;
     }
-    if (i < n && text[i] === '\n') i++; // consume newline
-    if (record.length > 0 && !(record.length === 1 && record[0] === '')) {
-      records.push(record);
-    }
+    if (i<n && text[i]==='\n') i++;
+    if (rec.length && !(rec.length===1 && rec[0]==='')) records.push(rec);
   }
-
   if (records.length < 2) return [];
 
-  // Detect columns from header row
-  const headers = records[0].map(h => h.toLowerCase().replace(/[^a-z0-9]/g, ''));
-  const srCol     = headers.findIndex(h => h.startsWith('sr') || h === 'no' || h === 'srno');
-  const instrCol  = headers.findIndex(h => h.includes('instruction'));
-  const actionCol = headers.findIndex(h => h.includes('action'));
+  const hdrs = records[0].map(h => h.toLowerCase().replace(/[^a-z0-9]/g,''));
+  const srC  = hdrs.findIndex(h => h.startsWith('sr') || h==='no' || h==='srno');
+  const insC = hdrs.findIndex(h => h.includes('instruction'));
+  const actC = hdrs.findIndex(h => h.includes('action'));
+  const sr = srC>=0?srC:0, ins = insC>=0?insC:1, act = actC>=0?actC:records[0].length-1;
 
-  // Fallback column indices if headers not found
-  const sr  = srCol  >= 0 ? srCol  : 0;
-  const ins = instrCol  >= 0 ? instrCol  : 1;
-  const act = actionCol >= 0 ? actionCol : records[0].length - 1;
-
-  const rows = [];
-  for (let r = 1; r < records.length; r++) {
-    const cols = records[r];
-    if (!cols || cols.every(c => !c)) continue;
-    rows.push({
-      srNo:        (cols[sr]  || '').trim(),
-      instruction: (cols[ins] || '').trim(),
-      actionBy:    (cols[act] || '').trim()
-    });
-  }
-  return rows;
+  return records.slice(1)
+    .filter(c => c && !c.every(x=>!x))
+    .map(c => ({ srNo:(c[sr]||'').trim(), instruction:(c[ins]||'').trim(), actionBy:(c[act]||'').trim() }));
 }
 
 function buildPeopleMap(rows) {
   const map = {};
   for (const row of rows) {
-    const people = row.actionBy.split(',').map(p => p.trim().replace(/"/g,'')).filter(Boolean);
-    for (const p of people) {
+    for (const p of row.actionBy.split(',').map(p=>p.trim().replace(/"/g,'')).filter(Boolean)) {
       if (!map[p]) map[p] = [];
       map[p].push({ srNo: row.srNo, instruction: row.instruction });
     }
@@ -455,126 +233,191 @@ function buildPeopleMap(rows) {
   return map;
 }
 
+/* ── LOAD CSV ── */
 async function loadCSV() {
-  const url = document.getElementById('csv-url').value.trim() || DEFAULT_URL;
-  const chatList = document.getElementById('chat-list');
-  chatList.innerHTML = '';
-  const loadDiv = document.createElement('div');
-  loadDiv.id = 'loading';
-  loadDiv.style.display = 'flex';
-  loadDiv.innerHTML = '<div class="spinner"></div> Loading data…';
-  chatList.appendChild(loadDiv);
+  const url = document.getElementById('csv-url').value.trim() || CSV_DEFAULT;
+  const cl = document.getElementById('chat-list');
+  cl.innerHTML = '<div class="loading-row"><div class="spinner"></div>&nbsp;Loading…</div>';
 
-  const proxies = [
+  let text = null, lastErr = '';
+  for (const p of [
     `https://corsproxy.io/?${encodeURIComponent(url)}`,
     `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-    url  // direct fallback
-  ];
-
-  let text = null;
-  let lastErr = '';
-  for (const proxyUrl of proxies) {
+    url
+  ]) {
     try {
-      const res = await fetch(proxyUrl);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      text = await res.text();
-      if (text && text.length > 10) break; // success
-    } catch (e) {
-      lastErr = e.message;
-    }
+      const r = await fetch(p);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      text = await r.text();
+      if (text && text.length > 10) break;
+    } catch(e) { lastErr = e.message; }
   }
 
-  if (!text) {
-    loadDiv.innerHTML = `<span style="color:#ef5350">Failed to load: ${lastErr}</span>`;
-    return;
-  }
+  if (!text) { cl.innerHTML = `<div class="loading-row" style="color:#ef5350">Failed: ${lastErr}</div>`; return; }
 
   try {
-    allData = parseCSVFull(text);
+    allData   = parseCSVFull(text);
     peopleMap = buildPeopleMap(allData);
-    loadDiv.style.display = 'none';
-    renderChatList(Object.keys(peopleMap));
-  } catch (e) {
-    loadDiv.innerHTML = `<span style="color:#ef5350">Parse error: ${e.message}</span>`;
+    await loadRemarks();
+    renderSidebar(Object.keys(peopleMap));
+    if (activePerson && peopleMap[activePerson]) openChat(activePerson);
+  } catch(e) {
+    cl.innerHTML = `<div class="loading-row" style="color:#ef5350">Parse error: ${e.message}</div>`;
   }
 }
 
-function renderChatList(people) {
-  const chatList = document.getElementById('chat-list');
-  chatList.innerHTML = '';
-  if (!people.length) {
-    chatList.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">No people found</div>';
-    return;
-  }
+/* ── SIDEBAR ── */
+function renderSidebar(people) {
+  const cl = document.getElementById('chat-list');
+  cl.innerHTML = '';
+  if (!people.length) { cl.innerHTML = '<div class="loading-row">No people found</div>'; return; }
   for (const name of people) {
-    const items = peopleMap[name] || [];
-    const preview = items.length ? items[0].instruction.slice(0, 60) + '…' : '';
-    const item = document.createElement('div');
-    item.className = 'chat-item' + (name === activePerson ? ' active' : '');
-    item.dataset.name = name;
-    item.innerHTML = `
+    const items = peopleMap[name]||[];
+    const preview = items.length ? items[0].instruction.slice(0,55)+'…' : '';
+    const el = document.createElement('div');
+    el.className = 'chat-item' + (name===activePerson?' active':'');
+    el.dataset.name = name;
+    el.innerHTML = `
       <div class="avatar" style="background:${colorFor(name)}">${initials(name)}</div>
       <div class="chat-info">
-        <div class="chat-name">${name}</div>
-        <div class="chat-preview">${escHtml(preview)}</div>
+        <div class="chat-name">${esc(name)}</div>
+        <div class="chat-preview">${esc(preview)}</div>
       </div>
-      <div class="chat-meta">
-        <div class="chat-badge">${items.length}</div>
-      </div>`;
-    item.onclick = () => openChat(name);
-    chatList.appendChild(item);
+      <div class="chat-badge">${items.length}</div>`;
+    el.onclick = () => openChat(name);
+    cl.appendChild(el);
   }
 }
-
 function filterPeople() {
   const q = document.getElementById('search-input').value.toLowerCase();
-  const filtered = Object.keys(peopleMap).filter(p => p.toLowerCase().includes(q));
-  renderChatList(filtered);
+  renderSidebar(Object.keys(peopleMap).filter(p=>p.toLowerCase().includes(q)));
 }
 
-function openChat(name) {
+/* ── OPEN CHAT ── */
+async function openChat(name) {
   activePerson = name;
-  // highlight sidebar
-  document.querySelectorAll('.chat-item').forEach(el => el.classList.toggle('active', el.dataset.name === name));
+  document.querySelectorAll('.chat-item').forEach(el=>el.classList.toggle('active', el.dataset.name===name));
+  await loadRemarks();
 
-  const items = peopleMap[name] || [];
-  const main = document.getElementById('main');
+  const items = peopleMap[name]||[];
+  const main  = document.getElementById('main');
   main.innerHTML = `
     <div id="chat-header">
       <div class="avatar" style="background:${colorFor(name)}">${initials(name)}</div>
       <div>
-        <div id="chat-header-name">${name}</div>
+        <div id="chat-header-name">${esc(name)}</div>
         <div id="chat-header-sub">${items.length} instruction${items.length!==1?'s':''}</div>
       </div>
       <div id="chat-header-actions">
-        <button class="icon-btn" title="Search in chat">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-        </button>
+        <span class="shared-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          Remarks visible to all users
+        </span>
       </div>
     </div>
     <div id="messages"></div>`;
 
   const msgs = document.getElementById('messages');
-  msgs.innerHTML = '<div class="date-divider">Instructions</div>';
-  items.forEach((item, i) => {
+  msgs.innerHTML = '<div class="date-divider">Instructions &amp; Remarks</div>';
+
+  items.forEach((item, idx) => {
+    const key  = remarkKey(item.srNo, idx);
+    const wrap = document.createElement('div');
+    wrap.className = 'msg-wrap';
+    wrap.style.animationDelay = `${idx*35}ms`;
+
+    // instruction bubble
     const bubble = document.createElement('div');
     bubble.className = 'msg-bubble';
-    bubble.style.animationDelay = `${i * 40}ms`;
     bubble.innerHTML = `
-      <div class="msg-sr"><span class="tag">${escHtml(item.srNo || '#'+(i+1))}</span> Instruction</div>
-      <div class="msg-text">${escHtml(item.instruction)}</div>
-      <div class="msg-time">${name}</div>`;
-    msgs.appendChild(bubble);
+      <div class="msg-sr"><span class="tag">${esc(item.srNo||'#'+(idx+1))}</span>Instruction</div>
+      <div class="msg-text">${esc(item.instruction)}</div>
+      <div class="msg-footer">${esc(name)}</div>`;
+
+    // remarks block
+    const rs = document.createElement('div');
+    rs.className = 'remarks-section';
+    rs.id = 'rs_' + key;
+
+    wrap.appendChild(bubble);
+    wrap.appendChild(rs);
+    msgs.appendChild(wrap);
+
+    renderRemarks(rs, key);
   });
-  // scroll to top
+
   msgs.scrollTop = 0;
 }
 
-function escHtml(s) {
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+/* ── RENDER REMARKS for one instruction ── */
+function renderRemarks(container, key) {
+  const list = remarksMap[key] || [];
+  container.innerHTML = '';
+
+  // existing remarks
+  if (list.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'no-remarks';
+    empty.textContent = 'No remarks yet — add one below';
+    container.appendChild(empty);
+  } else {
+    list.forEach(r => {
+      const d = document.createElement('div');
+      d.className = 'remark-item';
+      d.innerHTML = `
+        <div class="remark-meta">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+          Remark
+          <span class="remark-by">— ${esc(r.author)}</span>
+          <span class="remark-ts">${fmtTime(r.time)}</span>
+        </div>
+        <div class="remark-text">${esc(r.text)}</div>`;
+      container.appendChild(d);
+    });
+  }
+
+  // input row
+  const row = document.createElement('div');
+  row.className = 'remark-input-row';
+
+  const inp = document.createElement('input');
+  inp.type = 'text';
+  inp.placeholder = 'Write a remark…';
+  inp.maxLength = 500;
+
+  const btn = document.createElement('button');
+  btn.className = 'send-btn';
+  btn.title = 'Send remark (Enter)';
+  btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>`;
+
+  const send = async () => {
+    const txt = inp.value.trim();
+    if (!txt) return;
+    inp.disabled = true;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="dot-saving"></span>';
+
+    if (!remarksMap[key]) remarksMap[key] = [];
+    remarksMap[key].push({ author: 'User', text: txt, time: Date.now() });
+    await saveRemarks();
+
+    inp.value = '';
+    inp.disabled = false;
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>`;
+    renderRemarks(container, key);
+    inp.focus();
+  };
+
+  btn.onclick = send;
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+
+  row.appendChild(inp);
+  row.appendChild(btn);
+  container.appendChild(row);
 }
 
-// Auto-load on start
+/* ── INIT ── */
 window.onload = loadCSV;
 </script>
 </body>
