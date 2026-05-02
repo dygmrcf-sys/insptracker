@@ -373,40 +373,74 @@ function initials(name) {
   return name.split(/[\s\/]+/).map(w => w[0]).join('').toUpperCase().slice(0,2);
 }
 
-function parseCSV(text) {
-  const lines = text.split('\n');
-  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/[^a-z]/g,''));
-  const srCol = headers.findIndex(h => h.includes('sr') || h.includes('no'));
-  const instrCol = headers.findIndex(h => h.includes('instruction'));
+// Full RFC-4180 CSV parser — handles multi-line quoted fields correctly
+function parseCSVFull(text) {
+  // Normalise line endings
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  const records = [];
+  let i = 0;
+  const n = text.length;
+
+  while (i < n) {
+    const record = [];
+    // parse one row
+    while (i < n) {
+      let field = '';
+      if (text[i] === '"') {
+        // quoted field
+        i++; // skip opening quote
+        while (i < n) {
+          if (text[i] === '"') {
+            if (i + 1 < n && text[i + 1] === '"') {
+              field += '"'; i += 2; // escaped quote
+            } else {
+              i++; break; // closing quote
+            }
+          } else {
+            field += text[i++];
+          }
+        }
+      } else {
+        // unquoted field — read until comma or newline
+        while (i < n && text[i] !== ',' && text[i] !== '\n') {
+          field += text[i++];
+        }
+      }
+      record.push(field.trim());
+      if (i < n && text[i] === ',') { i++; continue; } // next field
+      break; // end of record
+    }
+    if (i < n && text[i] === '\n') i++; // consume newline
+    if (record.length > 0 && !(record.length === 1 && record[0] === '')) {
+      records.push(record);
+    }
+  }
+
+  if (records.length < 2) return [];
+
+  // Detect columns from header row
+  const headers = records[0].map(h => h.toLowerCase().replace(/[^a-z0-9]/g, ''));
+  const srCol     = headers.findIndex(h => h.startsWith('sr') || h === 'no' || h === 'srno');
+  const instrCol  = headers.findIndex(h => h.includes('instruction'));
   const actionCol = headers.findIndex(h => h.includes('action'));
 
+  // Fallback column indices if headers not found
+  const sr  = srCol  >= 0 ? srCol  : 0;
+  const ins = instrCol  >= 0 ? instrCol  : 1;
+  const act = actionCol >= 0 ? actionCol : records[0].length - 1;
+
   const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-    const cols = smartSplit(line);
-    if (cols.length < 2) continue;
+  for (let r = 1; r < records.length; r++) {
+    const cols = records[r];
+    if (!cols || cols.every(c => !c)) continue;
     rows.push({
-      srNo: (srCol >= 0 ? cols[srCol] : '').trim(),
-      instruction: (instrCol >= 0 ? cols[instrCol] : cols[1] || '').trim(),
-      actionBy: (actionCol >= 0 ? cols[actionCol] : cols[cols.length-1] || '').trim()
+      srNo:        (cols[sr]  || '').trim(),
+      instruction: (cols[ins] || '').trim(),
+      actionBy:    (cols[act] || '').trim()
     });
   }
   return rows;
-}
-
-// Smart CSV split - handles quoted fields
-function smartSplit(line) {
-  const cols = [];
-  let cur = '', inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (ch === '"') { inQ = !inQ; }
-    else if (ch === ',' && !inQ) { cols.push(cur); cur = ''; }
-    else { cur += ch; }
-  }
-  cols.push(cur);
-  return cols;
 }
 
 function buildPeopleMap(rows) {
@@ -424,26 +458,44 @@ function buildPeopleMap(rows) {
 async function loadCSV() {
   const url = document.getElementById('csv-url').value.trim() || DEFAULT_URL;
   const chatList = document.getElementById('chat-list');
-  const loading = document.getElementById('loading');
   chatList.innerHTML = '';
-  chatList.appendChild(loading);
-  loading.style.display = 'flex';
+  const loadDiv = document.createElement('div');
+  loadDiv.id = 'loading';
+  loadDiv.style.display = 'flex';
+  loadDiv.innerHTML = '<div class="spinner"></div> Loading data…';
+  chatList.appendChild(loadDiv);
+
+  const proxies = [
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    url  // direct fallback
+  ];
+
+  let text = null;
+  let lastErr = '';
+  for (const proxyUrl of proxies) {
+    try {
+      const res = await fetch(proxyUrl);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      text = await res.text();
+      if (text && text.length > 10) break; // success
+    } catch (e) {
+      lastErr = e.message;
+    }
+  }
+
+  if (!text) {
+    loadDiv.innerHTML = `<span style="color:#ef5350">Failed to load: ${lastErr}</span>`;
+    return;
+  }
 
   try {
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-    let res;
-    try {
-      res = await fetch(proxyUrl);
-    } catch {
-      res = await fetch(url);
-    }
-    const text = await res.text();
-    allData = parseCSV(text);
+    allData = parseCSVFull(text);
     peopleMap = buildPeopleMap(allData);
-    loading.style.display = 'none';
+    loadDiv.style.display = 'none';
     renderChatList(Object.keys(peopleMap));
   } catch (e) {
-    loading.innerHTML = `<span style="color:#ef5350">Failed to load: ${e.message}</span>`;
+    loadDiv.innerHTML = `<span style="color:#ef5350">Parse error: ${e.message}</span>`;
   }
 }
 
